@@ -9,4 +9,3 @@ if __name__ == '__main__':
     # os.system(cmd)
 
     driver= webdriver.Chrome()
-    driver.find_element().text
