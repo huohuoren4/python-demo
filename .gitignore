@@ -1,0 +1,4 @@
+.pytest_cache/
+allure_reports/
+**/__pycache__/
+**/.idea/
