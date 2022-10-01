@@ -8,11 +8,11 @@ class Log:
     """
     日志类
     """
-    def __init__(self, logger: logging.Logger = None, file_handler: logging.FileHandler = None,
-                 stream_handler: logging.StreamHandler = None) -> None:
-        self.logger = logger
-        self.file_handler = file_handler
-        self.stream_handler = stream_handler
+
+    def __init__(self) -> None:
+        self.logger = None
+        self.file_handler = None
+        self.stream_handler = None
 
     def set_logger(self, log_file: str, fmt: str, log_level: int = logging.INFO) -> None:
         """
@@ -51,5 +51,5 @@ class Log:
 
 fmt = "%(levelname)s\t%(asctime)s\t[%(filename)s:%(lineno)d]\t%(message)s"
 log: Log = Log()
-log_file= os.path.join( os.path.join(ROOT_DIR,"log"), "2.log")
+log_file = os.path.join(os.path.join(ROOT_DIR, "log"), "2.log")
 log.set_logger(log_file, fmt, log_level=logging.WARN)
