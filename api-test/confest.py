@@ -1,9 +1,11 @@
 import pytest
 import requests
+
 from utils.yaml_util import YamlUtil
 
 token = ""
-iam = YamlUtil("./testcases/yaml/iam.yaml").read()
+iam = YamlUtil("testcases/yaml/iam.yaml").read()
+
 
 @pytest.fixture(scope="session")
 def get_token():
@@ -34,7 +36,7 @@ def get_token():
                 }
             }
         }
-        headers= {
+        headers = {
             "Content-Type": "application/json"
         }
         res = requests.Request(method="POST", url=url, data=data, headers=headers)
