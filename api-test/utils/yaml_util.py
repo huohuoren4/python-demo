@@ -1,3 +1,4 @@
+import json
 import os.path
 from string import Template
 
@@ -37,10 +38,14 @@ def deal_path(path: str):
     return os.path.join(ROOT_DIR, path.replace("/", os.path.sep))
 
 
-def yaml_variables_substitute(template_str: str, data: dict) -> str:
+def yaml_variables_substitute(template: dict, data: dict) -> dict:
     """
-    解析 yaml 文件中的 变量
+    解析 yaml 文件中的变量
+    变量的正则表达式: r'[_a-z][_a-z0-9]*', 换句话说就是 python 变量的命名规则
     使用示例:
-    yaml_variables_substitute("this is ${name}", { "name" : "123"}) # 输出: this is 123
+    yaml_variables_substitute({ "name": "this is ${name}"}, { "name" : "123"}) # 输出: { "name": "this is 123"}
     """
-    return Template(template_str).substitute(data)
+    s = Template(json.dumps(template)).safe_substitute(data)
+    return json.loads(s)
+
+

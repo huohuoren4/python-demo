@@ -1,10 +1,16 @@
-IAM:
-  获取token-url: https://iam.cn-north-4.myhuaweicloud.com/v3/auth/tokens
-  IAMDomain: hid_tt-c4y5905k9xko
-  IAMUser: huohuoren4
-  IAMPassword: Wang678994
-  project_name: cn-north-4
-  project_id: 63201fe896034cb086e6177155724f6a
+
+# 接口数据
+获取token:
+  url: ${iam_domain}/v3/auth/tokens
+  method: POST
+  params:
+  data:
+  json: {"auth":{"identity":{"methods":["password"],"password":{"user":{"domain":{"name":"${IAMDomain}"},"name":"${IAMUser}","password":"${IAMPassword}"}}},"scope":{"project":{"name":"${project_name}"}}}}
+  files:
+  headers: {"Content-Type":"application/json"}
+  timeout: ${timeout}
+  testcase: []
+
 
 
 

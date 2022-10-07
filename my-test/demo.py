@@ -17,7 +17,6 @@ class Animal(object):
 
 class Dog(Animal):
     '''类名'''
-
     def bark(self) -> None :
         print("小狗在叫")
 
@@ -27,8 +26,10 @@ class Dog(Animal):
 
 
 if __name__ == '__main__':
-    print("12jorewoeow3".replace("/", "123"))
-    print(os.path.split(__file__))
+    dog01= Dog("1", "2")
+    dog02= dog01
+    dog02.name= "1111"
+    print(dog01.name)
 
 
 

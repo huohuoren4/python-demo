@@ -36,7 +36,7 @@ class LogUtil:
         self.stream_handler = logging.StreamHandler()
         log_file01 = os.path.join(log_dir, self.get_log_filename())
         self.file_handler = logging.FileHandler(log_file01, 'a', encoding='utf-8')
-        self.stream_handler.setLevel(log_level)
+        self.set_level(log_level)
         self.set_fmt(fmt)
         self.logger.addHandler(self.file_handler)
         self.logger.addHandler(self.stream_handler)
