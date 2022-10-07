@@ -9,7 +9,7 @@ common_data = YamlUtil("testcases/yaml/common.yaml").read()
 iam_data = yaml_variables_substitute(YamlUtil("testcases/yaml/iam.yaml").read(), common_data)
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture()
 def get_token():
     """获取 token """
     global session_data
@@ -23,9 +23,10 @@ def get_token():
         params = iam_api_data["params"]
         files = iam_api_data["files"]
         timeout = float(iam_api_data["timeout"])
-        log.info("%s : %s", method, url)
+        log.info("%s: %s", method, url)
         res = request(method=method, url=url, params=params, data=data, json=json, files=files, headers=headers,
                       timeout=timeout)
         if res.status_code < 300:
             session_data["token"] = res.headers["X-Subject-Token"]
+    log.info("获取了token")
     return session_data

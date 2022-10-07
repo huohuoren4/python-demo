@@ -1,5 +1,7 @@
 import os.path
 
+import pytest
+
 
 class Animal(object):
     '''类名'''
@@ -17,6 +19,8 @@ class Animal(object):
 
 class Dog(Animal):
     '''类名'''
+
+    @pytest.mark.dependency()
     def bark(self) -> None :
         print("小狗在叫")
 
