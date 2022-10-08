@@ -11,5 +11,8 @@ from utils.log_util import log
 def find_ele(driver: WebDriver, value: str, by: str = By.XPATH, timeout: float = 5) -> WebElement:
     ele = WebDriverWait(driver, timeout).until(
         expected_conditions.presence_of_element_located((by, value)))
-    log.info("成功定位元素 --> %s:%s descriptiont: %s", by, value, ele.get_attribute("innerHTML"))
+    text = ele.text
+    if text == "":
+        text = ele.get_attribute("innerHTML")
+    log.info("成功定位元素 --> %s:%s --> 描述:%s", by, value, text)
     return ele
