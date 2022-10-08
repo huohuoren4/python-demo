@@ -1,10 +1,13 @@
+import os
 
-def hello(name) :
-    '''函数说明'''
-    return "hello, " + str(name)
+import pytest
 
+ROOT_DIR = os.path.dirname(__file__)
 
-l = [1, 2, 3, 4, 5]
-new_list = map(hello, l) # 结果: [2， 4， 6， 8， 10]
-for i in new_list:
-    print(i)
+###########################
+## Web-UI 自动化测试
+
+if __name__ == '__main__':
+    pytest.main()
+    # cmd = r"allure generate ./allure_reports/tmp  -o ./allure_reports/html --clean"
+    # os.system(cmd)

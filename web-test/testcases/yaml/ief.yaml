@@ -1,0 +1,41 @@
+
+边缘应用:
+  应用模板:
+    查询应用模板列表:
+      url: ${ief_domain}/v2/${project_id}/edgemgr/apps
+      method: GET
+      params:
+      data:
+      json:
+      files:
+      headers: {"X-Auth-Token":"${token}","ief-instance-id":"${ief_instance_id}"}
+      timeout: ${timeout}
+      testcase:
+
+    查询应用模板详情:
+      url: ${ief_domain}/v2/${project_id}/edgemgr/apps/{{app_template_id01}}
+      method: GET
+      params:
+      data:
+      json:
+      files:
+      headers: {"X-Auth-Token":"${token}","ief-instance-id":"${ief_instance_id}"}
+      timeout: ${timeout}
+      验证字段:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
