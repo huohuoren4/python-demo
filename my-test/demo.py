@@ -1,61 +1,40 @@
 import os.path
+from abc import ABC, abstractmethod
+from typing import Any
 
 import pytest
 
 
-class Animal(object):
+class MetaClass(metaclass=ABC):
     '''类名'''
 
-    def __init__(self, color: str, name: str) -> None:
-        self.color= color
-        self.name= name
-
-    def bark(self) -> None :
-        print("动物在叫")
-
-    class Meta:
-        verbose_name= "补充内容"
+    @abstractmethod
+    def hello(self) -> None: ...
 
 
-class Dog(Animal):
+class MyClass(MetaClass):
     '''类名'''
 
-    @pytest.mark.dependency()
-    def bark(self) -> None :
-        print("小狗在叫")
+    def hello(self) -> None:
+        '''函数说明'''
+        print(self.__class__)
 
 
-    def drink(self) -> None :
-        print("小狗在喝水")
+class FirstClass(MetaClass):
+    '''类名'''
+
+    def hello(self) -> None:
+        '''函数说明'''
+        print(self.__class__)
+
+
+class Factory:
+    '''类名'''
+
+    def create_class(self, class_name: Any) -> Any:
+        '''函数说明'''
+        return class_name()
 
 
 if __name__ == '__main__':
-    dog01= Dog("1", "2")
-    dog02= dog01
-    dog02.name= "1111"
-    print(dog01.name)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    Factory().create_class(FirstClass).hello()
