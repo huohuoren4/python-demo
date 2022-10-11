@@ -34,6 +34,8 @@ class LogUtil:
         """
         self.logger = logging.getLogger()
         self.stream_handler = logging.StreamHandler()
+        if not os.path.exists(log_dir):
+            os.makedirs(log_dir)
         log_file01 = os.path.join(log_dir, self.get_log_filename())
         self.file_handler = logging.FileHandler(log_file01, 'a', encoding='utf-8')
         self.set_level(log_level)

@@ -1,0 +1,69 @@
+
+边缘应用:
+  应用模板:
+    查询应用模板列表: # X-Auth-Token 正向
+      url: ${ief_domain}/v2/${project_id}/edgemgr/apps
+      method: GET
+      params:
+      data:
+      json:
+      files:
+      headers: {"X-Auth-Token":"${v_token}","ief-instance-id":"${ief_instance_id}"}
+      timeout: ${timeout}
+      验证字段:
+        v_token: ["${token}"]
+      断言字段:
+        assert01:
+
+    查询应用模板列表01: # X-Auth-Token 逆向
+      url: ${ief_domain}/v2/${project_id}/edgemgr/apps
+      method: GET
+      params:
+      data:
+      json:
+      files:
+      headers: {"X-Auth-Token":"${v_token}","ief-instance-id":"${ief_instance_id}"}
+      timeout: ${timeout}
+      验证字段:
+        v_token: ["", "weowo_"]
+
+    查询应用模板列表02: # ief-instance-id 正向
+      url: ${ief_domain}/v2/${project_id}/edgemgr/apps
+      method: GET
+      params:
+      data:
+      json:
+      files:
+      headers: {"X-Auth-Token":"${token}","ief-instance-id":"${v_instance_id}"}
+      timeout: ${timeout}
+      验证字段:
+        v_instance_id: ["${ief_instance_id}"]
+
+    查询应用模板列表03:  # ief-instance-id 逆向
+      url: ${ief_domain}/v2/${project_id}/edgemgr/apps
+      method: GET
+      params:
+      data:
+      json:
+      files:
+      headers: {"X-Auth-Token":"${token}","ief-instance-id":"${v_instance_id}"}
+      timeout: ${timeout}
+      验证字段:
+        v_instance_id: ["1213232332323"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
