@@ -1,8 +1,8 @@
-**/.pytest_cache/
-**/allure_reports/
-**/__pycache__/
+**/.pytest_cache
+**/allure_reports
+**/__pycache__
 **/.idea
-**/log/
-venv/
+**/log
+**/venv
 **/assets
 **/report.html
