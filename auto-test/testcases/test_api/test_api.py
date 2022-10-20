@@ -1,8 +1,8 @@
 import pytest
 from requests import request
 from conftest import common_data
-from utils.log_util import log
-from utils.yaml_util import YamlUtil, yaml_variables_substitute, string_variables_substitute
+from utils.log_util import single_log
+from utils.file_util import YamlUtil, yaml_variables_substitute, string_variables_substitute
 
 ief_data = yaml_variables_substitute(YamlUtil("testcases/test_api/yaml/ief.yaml").read(), common_data)
 
@@ -24,7 +24,7 @@ class TestApi:
         params = app_template_data["params"]
         files = app_template_data["files"]
         timeout = float(app_template_data["timeout"])
-        log.info("%s : %s 验证数据: %s", method, url, v_datas)
+        single_log.info("%s : %s\t验证数据: %s", method, url, v_datas)
         res = request(method=method, url=url, params=params, data=data, json=json, files=files, headers=headers,
                       timeout=timeout)
         assert res.status_code < 300
@@ -45,7 +45,7 @@ class TestApi:
         params = app_template_data["params"]
         files = app_template_data["files"]
         timeout = float(app_template_data["timeout"])
-        log.info("%s : %s 验证数据: %s", method, url, v_datas)
+        single_log.info("%s : %s 验证数据: %s", method, url, v_datas)
         res = request(method=method, url=url, params=params, data=data, json=json, files=files, headers=headers,
                       timeout=timeout)
         assert res.status_code >= 300
@@ -66,7 +66,7 @@ class TestApi:
         params = app_template_data["params"]
         files = app_template_data["files"]
         timeout = float(app_template_data["timeout"])
-        log.info("%s : %s 验证数据: %s", method, url, v_datas)
+        single_log.info("%s : %s\t\t验证数据: %s", method, url, v_datas)
         res = request(method=method, url=url, params=params, data=data, json=json, files=files, headers=headers,
                       timeout=timeout)
         assert res.status_code < 300
@@ -87,7 +87,7 @@ class TestApi:
         params = app_template_data["params"]
         files = app_template_data["files"]
         timeout = float(app_template_data["timeout"])
-        log.info("%s : %s 验证数据: %s", method, url, v_datas)
+        single_log.info("%s : %s\t验证数据: %s", method, url, v_datas)
         res = request(method=method, url=url, params=params, data=data, json=json, files=files, headers=headers,
                       timeout=timeout)
         assert res.status_code >= 300

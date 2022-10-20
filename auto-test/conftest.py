@@ -1,21 +1,21 @@
 import pytest
 
 from main import UI_SWITCH
-from page.element import ele
+from core.element import single_ele
 from requests import request
-from utils.log_util import log
-from utils.yaml_util import YamlUtil, yaml_variables_substitute
+from utils.log_util import single_log
+from utils.file_util import YamlUtil, yaml_variables_substitute
 
 
 # 获取驱动
 @pytest.fixture(scope="session", autouse=UI_SWITCH)
 def get_driver():
     """获取 driver """
-    ele.driver.set_page_load_timeout(10)
-    ele.driver.implicitly_wait(5)
-    ele.driver.maximize_window()
+    single_ele.driver.set_page_load_timeout(10)
+    single_ele.driver.implicitly_wait(5)
+    single_ele.driver.maximize_window()
     yield
-    ele.driver.quit()
+    single_ele.driver.quit()
 
 
 session_data = {"token": ""}
@@ -36,10 +36,10 @@ def get_token():
         params = iam_api_data["params"]
         files = iam_api_data["files"]
         timeout = float(iam_api_data["timeout"])
-        log.info("%s: %s", method, url)
+        single_log.info("%s: %s", method, url)
         res = request(method=method, url=url, params=params, data=data, json=json, files=files, headers=headers,
                       timeout=timeout)
         if res.status_code < 300:
             session_data["token"] = res.headers["X-Subject-Token"]
-        log.info("更新了token")
+        single_log.info("更新了token")
     return session_data

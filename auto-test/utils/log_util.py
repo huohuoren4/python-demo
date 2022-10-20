@@ -1,9 +1,7 @@
 from __future__ import annotations
-
 import logging
 import os.path
 import time
-
 from main import ROOT_DIR
 
 
@@ -27,7 +25,7 @@ class LogUtil:
     def get_logger(self, log_dir: str, fmt: str, log_level: int = logging.INFO) -> logging.Logger:
         """
         设置 logger
-        @param log_file:
+        @param log_dir:
         @param fmt: str, 比如: "%(levelname)s\t%(asctime)s\t[%(filename)s:%(lineno)d]\t%(message)s"
         @param log_level: INFO
         @return:
@@ -60,12 +58,16 @@ class LogUtil:
         self.stream_handler.setFormatter(log_fmt)
 
     def get_log_filename(self) -> str:
+        """
+        按年月日生成日志文件名
+        @return:
+        """
         local_time = time.time()
         return time.strftime("%Y%m%d", time.localtime(local_time)) + ".log"
 
 
-fmt = "%(levelname)s\t%(asctime)s\t[%(filename)s:%(lineno)d]\t%(message)s"
-log_util = LogUtil()
-log_dir = os.path.join(ROOT_DIR, "log")
-log = log_util.get_logger(log_dir, fmt)
-
+# 单例对象
+s_fmt = "%(levelname)s\t%(asctime)s\t[%(filename)s:%(lineno)d]\t%(message)s"
+s_log_util = LogUtil()
+s_log_dir = os.path.join(ROOT_DIR, "log")
+single_log = s_log_util.get_logger(s_log_dir, s_fmt)

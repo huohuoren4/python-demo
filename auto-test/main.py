@@ -6,7 +6,7 @@ ROOT_DIR = os.path.dirname(__file__)
 
 # 跑 API 自动化设置 UI_SWITCH = False
 # 开关 UI 自动化测试
-UI_SWITCH = False
+UI_SWITCH = True
 
 """
 Web-UI 自动化测试

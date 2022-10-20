@@ -2,9 +2,7 @@ import json
 import os.path
 import re
 from string import Template
-
 import yaml
-
 from main import ROOT_DIR
 
 
