@@ -1,5 +1,6 @@
 import pytest
 
+from core.api_core import api_template
 from main import UI_SWITCH
 from core.element import single_ele
 from requests import request
@@ -27,19 +28,8 @@ iam_data = yaml_variables_substitute(YamlUtil("testcases/test_api/yaml//iam.yaml
 def get_token():
     """获取 token, 未考虑 token 的过期时间"""
     if len(session_data["token"]) == 0:
-        iam_api_data = iam_data["获取token"]
-        url = iam_api_data["url"]
-        method = iam_api_data["method"]
-        data = iam_api_data["data"]
-        json = iam_api_data["json"]
-        headers = iam_api_data["headers"]
-        params = iam_api_data["params"]
-        files = iam_api_data["files"]
-        timeout = float(iam_api_data["timeout"])
-        single_log.info("%s: %s", method, url)
-        res = request(method=method, url=url, params=params, data=data, json=json, files=files, headers=headers,
-                      timeout=timeout)
-        if res.status_code < 300:
-            session_data["token"] = res.headers["X-Subject-Token"]
-        single_log.info("更新了token")
+        res = api_template(req_data=iam_data["获取token"], session_data=session_data,
+                           v_datas=iam_data["获取token"]["验证字段_断言数据"][0])
+        session_data["token"] = res.headers["X-Subject-Token"]
+        single_log.info("获取了token")
     return session_data

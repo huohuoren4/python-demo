@@ -9,8 +9,8 @@
   files:
   headers: {"Content-Type":"application/json"}
   timeout: ${timeout}
-  testcase: []
-
+  验证字段_断言数据:
+    - [{}, {"status_code": "201", "assert_text": []}]
 
 
 

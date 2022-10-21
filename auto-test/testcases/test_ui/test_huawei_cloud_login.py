@@ -1,5 +1,4 @@
 from __future__ import annotations
-from time import sleep
 import pytest
 from core.element import single_ele
 

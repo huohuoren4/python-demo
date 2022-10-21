@@ -1,4 +1,3 @@
-
 边缘应用:
   应用模板:
     查询应用模板列表: # X-Auth-Token 正向
@@ -8,12 +7,10 @@
       data:
       json:
       files:
-      headers: {"X-Auth-Token":"${v_token}","ief-instance-id":"${ief_instance_id}"}
+      headers: { "X-Auth-Token": "${v_char}","ief-instance-id": "${ief_instance_id}" }
       timeout: ${timeout}
-      验证字段:
-        v_token: ["${token}"]
-      断言字段:
-        assert01:
+      验证字段_断言数据:    # [[{验证字段: 字典类型 }, {响应状态码, 断言字段:可以使用正则表达式, 数组类型}]] , 示例: 验证字段和断言字段都为空 -- [[{},{"status_code": "200", "assert_text": []}]]
+        - [{"v_char": "${token}", "v_char01": "4568"}, {"status_code": "200", "assert_text": []}]
 
     查询应用模板列表01: # X-Auth-Token 逆向
       url: ${ief_domain}/v2/${project_id}/edgemgr/apps
@@ -22,10 +19,11 @@
       data:
       json:
       files:
-      headers: {"X-Auth-Token":"${v_token}","ief-instance-id":"${ief_instance_id}"}
+      headers: { "X-Auth-Token": "${v_char}","ief-instance-id": "${ief_instance_id}" }
       timeout: ${timeout}
-      验证字段:
-        v_token: ["", "weowo_"]
+      验证字段_断言数据:
+        - [{"v_char": ""}, {"status_code": "401", "assert_text": []}]
+        - [{"v_char": "123456"}, {"status_code": "401", "assert_text": []}]
 
     查询应用模板列表02: # ief-instance-id 正向
       url: ${ief_domain}/v2/${project_id}/edgemgr/apps
@@ -34,23 +32,23 @@
       data:
       json:
       files:
-      headers: {"X-Auth-Token":"${token}","ief-instance-id":"${v_instance_id}"}
+      headers: { "X-Auth-Token": "${token}","ief-instance-id": "${v_char}" }
       timeout: ${timeout}
-      验证字段:
-        v_instance_id: ["${ief_instance_id}"]
+      验证字段_断言数据:
+        - [{"v_char": "${ief_instance_id}"}, {"status_code": "200", "assert_text": []}]
 
-    查询应用模板列表03:  # ief-instance-id 逆向
+    查询应用模板列表03: # ief-instance-id 逆向
       url: ${ief_domain}/v2/${project_id}/edgemgr/apps
       method: GET
       params:
       data:
       json:
       files:
-      headers: {"X-Auth-Token":"${token}","ief-instance-id":"${v_instance_id}"}
+      headers: { "X-Auth-Token": "${token}","ief-instance-id": "${v_char}" }
       timeout: ${timeout}
-      验证字段:
-        v_instance_id: ["1213232332323"]
-
+      验证字段_断言数据:
+        - [{"v_char": "woewoew13*7"}, {"status_code": "404", "assert_text": []}]
+        - [{"v_char": "124635566"}, {"status_code": "404", "assert_text": []}]
 
 
 

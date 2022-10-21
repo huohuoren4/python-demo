@@ -2,6 +2,8 @@ import json
 import os.path
 import re
 from string import Template
+from typing import Any
+
 import yaml
 from main import ROOT_DIR
 
@@ -37,15 +39,16 @@ def deal_path(path: str):
     return os.path.join(ROOT_DIR, path.replace("/", os.path.sep))
 
 
-def yaml_variables_substitute(template: dict, data: dict) -> dict:
+def yaml_variables_substitute(template: Any, data: dict) -> Any:
     """
     解析 yaml 文件中的变量
     变量的正则表达式: r'[_a-z][_a-z0-9]*', 换句话说就是 python 变量的命名规则
     使用示例:
     yaml_variables_substitute({ "name": "this is ${name}"}, { "name" : "123"}) # 输出: { "name": "this is 123"}
     """
-    s = Template(json.dumps(template)).safe_substitute(data)
-    return json.loads(s)
+    parse_str = json.dumps(template)
+    template = string_variables_substitute(parse_str, data)
+    return json.loads(template)
 
 
 def string_variables_substitute(template: str, data: dict) -> str:
@@ -55,6 +58,6 @@ def string_variables_substitute(template: str, data: dict) -> str:
     使用示例:
     string_variables_substitute("this is ${name}", { "name" : "123"}) # 输出: "this is 123"
     """
-    if re.search(r"${.+?}", template) is None:
+    if re.search(r"\${.+?}", template):
         template = Template(template).safe_substitute(data)
     return template

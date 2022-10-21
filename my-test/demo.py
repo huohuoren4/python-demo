@@ -1,11 +1,9 @@
-import os.path
-from abc import ABC, abstractmethod
+import json
+from abc import abstractmethod, ABCMeta
 from typing import Any
 
-import pytest
 
-
-class MetaClass(metaclass=ABC):
+class MetaClass(metaclass=ABCMeta):
     '''类名'''
 
     @abstractmethod
@@ -37,4 +35,6 @@ class Factory:
 
 
 if __name__ == '__main__':
-    Factory().create_class(FirstClass).hello()
+    a=10
+    b=int('10')
+    print(a is b)
