@@ -2,7 +2,7 @@ from __future__ import annotations
 import logging
 import os.path
 import time
-from main import ROOT_DIR
+from utils.file_util import deal_path
 
 
 class LogUtil:
@@ -22,19 +22,22 @@ class LogUtil:
         self.file_handler: logging.StreamHandler | None = None
         self.stream_handler: logging.FileHandler | None = None
 
-    def get_logger(self, log_dir: str, fmt: str, log_level: int = logging.INFO) -> logging.Logger:
+    def get_logger(self, name: str, log_dir: str, fmt: str, prefix: str = "",
+                   log_level: int = logging.INFO) -> logging.Logger:
         """
         设置 logger
         @param log_dir:
+        @param name: 日志对象名字
         @param fmt: str, 比如: "%(levelname)s\t%(asctime)s\t[%(filename)s:%(lineno)d]\t%(message)s"
         @param log_level: INFO
+        @param prefix: 日志文件前缀, 比如: webui_202209.log
         @return:
         """
-        self.logger = logging.getLogger()
+        self.logger = logging.getLogger(name=name)
         self.stream_handler = logging.StreamHandler()
         if not os.path.exists(log_dir):
             os.makedirs(log_dir)
-        log_file01 = os.path.join(log_dir, self.get_log_filename())
+        log_file01 = os.path.join(log_dir, prefix + self.get_log_filename())
         self.file_handler = logging.FileHandler(log_file01, 'a', encoding='utf-8')
         self.set_level(log_level)
         self.set_fmt(fmt)
@@ -63,11 +66,4 @@ class LogUtil:
         @return:
         """
         local_time = time.time()
-        return time.strftime("%Y%m%d", time.localtime(local_time)) + ".log"
-
-
-# 单例对象
-s_fmt = "%(levelname)s\t%(asctime)s\t[%(filename)s:%(lineno)d]\t%(message)s"
-s_log_util = LogUtil()
-s_log_dir = os.path.join(ROOT_DIR, "log")
-single_log = s_log_util.get_logger(s_log_dir, s_fmt)
+        return time.strftime("%Y%m", time.localtime(local_time)) + ".log"

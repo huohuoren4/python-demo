@@ -2,6 +2,8 @@ import json
 from abc import abstractmethod, ABCMeta
 from typing import Any
 
+from selenium import webdriver
+
 
 class MetaClass(metaclass=ABCMeta):
     '''类名'''
@@ -35,6 +37,5 @@ class Factory:
 
 
 if __name__ == '__main__':
-    a=10
-    b=int('10')
-    print(a is b)
+    driver01=webdriver.Chrome()
+    driver02=webdriver.Chrome()

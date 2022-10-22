@@ -3,7 +3,6 @@ import os.path
 import re
 from string import Template
 from typing import Any
-
 import yaml
 from main import ROOT_DIR
 
@@ -29,7 +28,7 @@ class YamlUtil:
             yaml.dump(data, f)
 
 
-def deal_path(path: str):
+def deal_path(path: str) -> str:
     """
     路径处理
     使用示例:
@@ -46,18 +45,7 @@ def yaml_variables_substitute(template: Any, data: dict) -> Any:
     使用示例:
     yaml_variables_substitute({ "name": "this is ${name}"}, { "name" : "123"}) # 输出: { "name": "this is 123"}
     """
-    parse_str = json.dumps(template)
-    template = string_variables_substitute(parse_str, data)
-    return json.loads(template)
-
-
-def string_variables_substitute(template: str, data: dict) -> str:
-    """
-    解析 yaml 文件中的变量
-    变量的正则表达式: r'[_a-z][_a-z0-9]*', 换句话说就是 python 变量的命名规则
-    使用示例:
-    string_variables_substitute("this is ${name}", { "name" : "123"}) # 输出: "this is 123"
-    """
+    template = json.dumps(template)
     if re.search(r"\${.+?}", template):
         template = Template(template).safe_substitute(data)
-    return template
+    return json.loads(template)

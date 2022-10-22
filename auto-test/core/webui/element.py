@@ -1,19 +1,29 @@
 from __future__ import annotations
-from selenium import webdriver
+
+from logging import Logger
+
+from selenium.common import NoSuchElementException, TimeoutException
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
-from main import UI_SWITCH
-from utils.log_util import single_log
 
 
 class Element(object):
 
     def __init__(self) -> None:
-        self.driver: WebDriver = webdriver.Chrome()
-        self.web_wait: WebDriverWait = WebDriverWait(self.driver, timeout=5)
+        self.driver: WebDriver | None = None
+        self.web_wait: WebDriverWait | None = None
+        self.log: Logger | None = None
+
+    def get_url(self, url: str) -> None:
+        try:
+            self.driver.get(url)
+        except TimeoutException:
+            self.log.error("加载页面超时! 页面url: " + url)
+            # 执行Javascript来停止页面加载 window.stop()
+            self.driver.execute_script('window.stop()')
 
     def find_ele(self, value: str, by: str = By.XPATH) -> WebElement:
         """
@@ -22,8 +32,13 @@ class Element(object):
         @param by:
         @return:
         """
-        ele = self.web_wait.until(
-            expected_conditions.presence_of_element_located((by, value)))
+        try:
+            ele = self.web_wait.until(
+                expected_conditions.presence_of_element_located((by, value)))
+        except TimeoutException:
+            msg = "未定位到可见元素 --> %s:%s" % (by, value)
+            self.log.error(msg)
+            raise NoSuchElementException(msg)
         self.ele_log(ele=ele, action="定位了", by=by, value=value)
         return ele
 
@@ -34,8 +49,13 @@ class Element(object):
         @param by:
         @return:
         """
-        ele = self.web_wait.until(
-            expected_conditions.visibility_of_element_located((by, value)))
+        try:
+            ele = self.web_wait.until(
+                expected_conditions.visibility_of_element_located((by, value)))
+        except TimeoutException:
+            msg = "未定位到可见元素 --> %s:%s" % (by, value)
+            self.log.error(msg)
+            raise NoSuchElementException(msg)
         self.ele_log(ele=ele, action="定位了", by=by, value=value)
         return ele
 
@@ -89,11 +109,4 @@ class Element(object):
         text = ele.text
         if text == "":
             text = ele.get_attribute("innerHTML")
-        single_log.info("成功%s元素 --> %s:%s --> 描述:%s%s", action, by, value, action, text)
-
-
-# 单例对象
-single_ele = None
-# 开启 UI 自动化测试, 设置 UI_SWITCH= True
-if UI_SWITCH:
-    single_ele = Element()
+        self.log.info("成功%s元素 --> %s:%s --> 描述:%s%s", action, by, value, action, text)
