@@ -1,12 +1,10 @@
 # from __future__ import annotations
 # import pytest
-# from core.element import single_ele
-#
 #
 # # 打开登录页面
 # @pytest.fixture(scope="module", autouse=True)
 # def get_login_page():
-#     single_ele.driver.get_url(url="https://auth.huaweicloud.com/authui/login.html#/login")
+#     # single_ele.driver.get_url(url="https://auth.huaweicloud.com/authui/login.html#/login")
 #
 #
 # class TestUserMgr:    """用户管理模块"""

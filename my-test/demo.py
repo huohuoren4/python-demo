@@ -37,5 +37,5 @@ class Factory:
 
 
 if __name__ == '__main__':
-    driver01=webdriver.Chrome()
-    driver02=webdriver.Chrome()
+    d = {"name": ""}
+    d1 = {"name": "121323"}

@@ -7,6 +7,7 @@ from core.webui.element import Element
 from utils.file_util import deal_path
 from utils.log_util import LogUtil
 
+# 项目初始化
 # WebUI 自动化日志
 s_fmt = "%(levelname)s\t%(asctime)s\t[%(filename)s:%(lineno)d]\t%(message)s"
 webui_log_util = LogUtil()
@@ -22,3 +23,7 @@ s_element.log = webui_log
 s_element.driver.set_page_load_timeout(10)
 s_element.driver.implicitly_wait(5)
 s_element.driver.maximize_window()
+
+# 登录标记
+# 未登录就为 False
+webui_session = {"is_login": False}

@@ -106,7 +106,4 @@ class Element(object):
         @param value:
         @return:
         """
-        text = ele.text
-        if text == "":
-            text = ele.get_attribute("innerHTML")
-        self.log.info("成功%s元素 --> %s:%s --> 描述:%s%s", action, by, value, action, text)
+        self.log.info("成功%s元素 --> %s:%s --> 描述:%s%s", action, by, value, action, ele.text)
