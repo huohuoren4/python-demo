@@ -1,11 +1,12 @@
 import pytest
-from demo.test_webui import webui_log, s_element, webui_session
+from demo.test_webui import webui_log, webui_session, s_driver
 from demo.test_webui.page.login_page import LoginPage
 from utils.file_util import YamlUtil
 
 common_testcase_data = YamlUtil("demo/test_webui/config/testcase_config/common_testcase.yaml").read()
-login_obj = LoginPage()
-login_obj.element = s_element
+common_data = YamlUtil("demo/test_webui/config/common.yaml").read()
+common_page_data = YamlUtil("demo/test_webui/config/page_config/common_page.yaml").read()
+login_obj = LoginPage(driver=s_driver, log=webui_log, common_data=common_data, common_page_data=common_page_data)
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -13,7 +14,7 @@ def run_webui():
     """运行 WebUI自动化框架 """
     webui_log.info("#################    WebUI 自动化开始运行!!!    #################")
     yield
-    s_element.driver.quit()
+    s_driver.quit()
     webui_log.info("#################    WebUI 自动化已经关闭!!!    #################")
     webui_log.info("")
 

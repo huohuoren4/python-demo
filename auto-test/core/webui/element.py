@@ -12,10 +12,10 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 class Element(object):
 
-    def __init__(self) -> None:
-        self.driver: WebDriver | None = None
-        self.web_wait: WebDriverWait | None = None
-        self.log: Logger | None = None
+    def __init__(self, driver: WebDriver, timeout: float, log: Logger) -> None:
+        self.driver = driver
+        self.web_wait: WebDriverWait = WebDriverWait(self.driver, timeout=timeout)
+        self.log = log
 
     def get_url(self, url: str) -> None:
         try:

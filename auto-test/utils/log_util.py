@@ -1,8 +1,9 @@
 from __future__ import annotations
+
 import logging
 import os.path
 import time
-from utils.file_util import deal_path
+from logging import Logger
 
 
 class LogUtil:
@@ -23,7 +24,7 @@ class LogUtil:
         self.stream_handler: logging.FileHandler | None = None
 
     def get_logger(self, name: str, log_dir: str, fmt: str, prefix: str = "",
-                   log_level: int = logging.INFO) -> logging.Logger:
+                   log_level: int = logging.INFO) -> Logger:
         """
         设置 logger
         @param log_dir:
