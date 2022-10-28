@@ -1,12 +1,10 @@
 import os
-from time import sleep
-
 import pytest
 
 """
 Autotest 自动化框架
 作者: G-Tester
-自我介绍: hello, world !!! 🍕🍔🍟I am a G-Tester. 你好，世界! 我是一个贯彻Google测试之道的测试者
+自我介绍: hello, world !!! I am a G-Tester. 你好，世界! 我是一个贯彻Google测试之道的测试者
 框架版本: Sister -- 俗称小姐姐版, 让小姐姐也能快乐的玩耍
 框架宗旨: 追求轻量简洁, 开箱即用
 框架特点:

@@ -1,10 +1,12 @@
 import re
 from logging import Logger
+from typing import List
+
 from requests import request, Response
 from utils.file_util import yaml_variables_substitute
 
 
-def request_template(req_data: dict, log: Logger, session_data: dict, v_datas: list[dict]) -> Response:
+def request_template(req_data: dict, log: Logger, session_data: dict, v_datas: List[dict]) -> Response:
     """
     API 接口请求模板
     @param v_datas: 验证数据和断言数据

@@ -26,4 +26,4 @@ def login_global():
         login_obj.enter_login_page()
         login_obj.login_form(form_datas=common_testcase_data["登录页面"]["登录页面_用户名的校验01"]["表单数据"],
                              v_data=common_testcase_data["登录页面"]["登录页面_用户名的校验01"]["验证字段_断言数据"][0])
-        login_obj.query_login_success()
+        assert login_obj.query_login_success(), "登录失败 !!!"

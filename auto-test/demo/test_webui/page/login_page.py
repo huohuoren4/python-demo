@@ -1,4 +1,6 @@
 from logging import Logger
+from time import sleep
+
 from selenium.common import NoSuchElementException
 from selenium.webdriver.chrome.webdriver import WebDriver
 from core.webui.element import Element
@@ -28,6 +30,7 @@ class LoginPage(Element):
         self.input_text(value=self.common_page_data["登录页面"]["定位元素"]["验证码输入框"], text=form_datas["验证码"])
         if form_datas["记住我"]:
             self.click_ele(value=self.common_page_data["登录页面"]["定位元素"]["记住我"])
+        # sleep(0.5)
         self.click_ele(value=self.common_page_data["登录页面"]["定位元素"]["登录按钮"])
 
     def query_error_tip(self, msg: str) -> bool:

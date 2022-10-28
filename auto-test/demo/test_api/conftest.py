@@ -7,6 +7,7 @@ from demo.test_api import api_log, session_data, iam_data
 @pytest.fixture(scope="session", autouse=True)
 def run_api():
     """运行接口自动化框架 """
+    time.sleep(1)
     api_log.info("#################      接口自动化开始运行!!!     #################")
     yield
     api_log.info("#################      接口自动化已经关闭!!!     #################")
