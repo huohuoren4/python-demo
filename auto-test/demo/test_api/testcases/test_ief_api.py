@@ -1,7 +1,8 @@
 import pytest
 from core.api.api_core import request_template
-from demo.test_api import common_data, api_log
+from demo.test_api.initial import api_log, common_data
 from utils.file_util import YamlUtil, yaml_variables_substitute
+
 
 ief_data = yaml_variables_substitute(YamlUtil("demo/test_api/config/ief.yaml").read(),
                                      common_data)

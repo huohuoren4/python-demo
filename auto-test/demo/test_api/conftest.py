@@ -1,7 +1,11 @@
 import time
 import pytest
 from core.api.api_core import request_template
-from demo.test_api import api_log, session_data, iam_data
+from demo.test_api.initial import api_log, session_data, common_data
+from utils.file_util import yaml_variables_substitute, YamlUtil
+
+iam_data = yaml_variables_substitute(YamlUtil("demo/test_api/config/iam.yaml").read(),
+                                     common_data)
 
 
 @pytest.fixture(scope="session", autouse=True)

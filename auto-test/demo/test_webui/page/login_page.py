@@ -1,10 +1,9 @@
 from logging import Logger
-from time import sleep
 
 from selenium.common import NoSuchElementException
 from selenium.webdriver.chrome.webdriver import WebDriver
 from core.webui.element import Element
-from demo.test_webui import webui_session
+from demo.test_webui.initial import webui_session
 from utils.file_util import yaml_variables_substitute
 
 
