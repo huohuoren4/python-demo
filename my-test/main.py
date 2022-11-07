@@ -5,5 +5,5 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 if __name__ == '__main__':
-    # psuti
+    print("hello, world")
     pass
