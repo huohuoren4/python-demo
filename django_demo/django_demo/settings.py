@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'django_demo.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': '182.61.148.121',  # 数据库主机
+        'PORT': 3306,  # 数据库端口
+        'USER': 'root',  # 数据库用户名
+        'PASSWORD': 'wangxi@678994',  # 数据库用户密码
+        'NAME': 'book'  # 数据库名字
     }
 }
 
