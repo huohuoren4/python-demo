@@ -10,8 +10,8 @@ from utils.file_util import yaml_variables_substitute
 class LoginPage(Element):
 
     def __init__(self, driver: WebDriver, log: Logger, common_data: dict,
-                 common_page_data: dict, timeout: float = 5) -> None:
-        super().__init__(driver, timeout, log)
+                 common_page_data: dict) -> None:
+        super().__init__(driver, log)
         self.common_data = common_data
         self.common_page_data = common_page_data
 

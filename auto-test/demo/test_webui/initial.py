@@ -13,7 +13,7 @@ webui_log = webui_log_util.get_logger(name="webui", log_dir=webui_log_dir, fmt=s
 
 # 单个元素对象
 s_driver = webdriver.Chrome()
-s_driver.set_page_load_timeout(10)
+s_driver.set_page_load_timeout(20)
 s_driver.implicitly_wait(5)
 s_driver.maximize_window()
 
