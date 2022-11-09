@@ -21,9 +21,9 @@ class Element(object):
         try:
             self.driver.get(url)
         except TimeoutException:
-            self.log.error("加载页面超时! 页面url: " + url)
-            # 执行Javascript来停止页面加载 window.stop()
-            self.driver.execute_script('window.stop()')
+            msg = "加载页面超时! 页面url: " + url
+            self.log.error(msg)
+            raise TimeoutException(msg)
 
     def find_ele_visible(self, value: str, by: str = By.XPATH, timeout: float = 5) -> WebElement:
         """
@@ -52,8 +52,8 @@ class Element(object):
         状态变化: 元素从可见到不可见
         return: 在指定的时间内, 元素从可见变成不可见返回 True, 否者报超时错误
         """
-        # 屏蔽隐式等待
         try:
+            # 屏蔽隐式等待
             self.driver.implicitly_wait(0)
             WebDriverWait(self.driver, timeout=timeout).until_not(
                 expected_conditions.visibility_of_element_located((by, value)))
