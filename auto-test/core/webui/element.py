@@ -3,6 +3,7 @@ from __future__ import annotations
 from logging import Logger
 from time import sleep
 
+import win32clipboard
 from selenium.common import TimeoutException
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
@@ -84,6 +85,21 @@ class Element(object):
         ele.clear()
         ele.send_keys(text)
         self.ele_log(action="输入了文本", text=text, by=by, value=value)
+
+    def get_paste(self) -> str:
+        """获取复制的内容"""
+        win32clipboard.OpenClipboard()
+        data = win32clipboard.GetClipboardData()
+        win32clipboard.CloseClipboard()
+        return data
+
+    def slide_scrollbar(self, x: int, y: int) -> None:
+        """
+        滑动滚动条
+        x: 正整数--向左, 负整数--向右
+        y: 正整数--向上, 负整数--向下
+        """
+        self.driver.execute_script("window.scrollTo(" + str(x) + ", " + str(y) + ")")
 
     def ele_log(self, action: str, by: str, value: str, text: str) -> None:
         """
