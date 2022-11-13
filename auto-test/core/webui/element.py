@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 from logging import Logger
-from typing import Optional
+from time import sleep
 
-from selenium.common import NoSuchElementException, TimeoutException
+from selenium.common import TimeoutException
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
@@ -13,9 +13,10 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 class Element(object):
 
-    def __init__(self, driver: WebDriver, log: Logger) -> None:
+    def __init__(self, driver: WebDriver, log: Logger, sleep_debug: float) -> None:
         self.driver = driver
         self.log = log
+        self.sleep_debug = sleep_debug
 
     def get_url(self, url: str) -> None:
         try:
@@ -32,18 +33,12 @@ class Element(object):
         return: 在指定的时间内, 找到可见元素返回元素对象, 否者报超时错误
         """
         try:
-            # 屏蔽隐式等待
-            self.driver.implicitly_wait(0)
             ele: WebElement = WebDriverWait(self.driver, timeout=timeout).until(
                 expected_conditions.visibility_of_element_located((by, value)))
         except TimeoutException:
             msg = "未定位到可见元素 --> %s:%s" % (by, value)
             self.log.error(msg)
-            # 打开隐式等待
-            self.driver.implicitly_wait(5)
-            raise NoSuchElementException(msg)
-        # 打开隐式等待
-        self.driver.implicitly_wait(5)
+            raise TimeoutException(msg)
         return ele
 
     def wait_ele_invisible(self, value: str, by: str = By.XPATH, timeout: float = 5) -> bool:
@@ -53,43 +48,39 @@ class Element(object):
         return: 在指定的时间内, 元素从可见变成不可见返回 True, 否者报超时错误
         """
         try:
-            # 屏蔽隐式等待
-            self.driver.implicitly_wait(0)
             WebDriverWait(self.driver, timeout=timeout).until_not(
                 expected_conditions.visibility_of_element_located((by, value)))
         except TimeoutException:
             msg = "元素未消失 --> %s:%s" % (by, value)
             self.log.error(msg)
-            # 打开隐式等待
-            self.driver.implicitly_wait(5)
-            raise NoSuchElementException(msg)
-        # 打开隐式等待
-        self.driver.implicitly_wait(5)
+            raise TimeoutException(msg)
         return True
 
-    def click_ele(self, value: str, by: str = By.XPATH) -> None:
+    def click_ele(self, value: str, by: str = By.XPATH, timeout: float = 5) -> None:
         """
         点击可见元素
         """
-        ele = self.find_ele_visible(value=value, by=by)
+        ele = self.find_ele_visible(value=value, by=by, timeout=timeout)
         text = ele.text
         ele.click()
         self.ele_log(action="点击了元素", text=text, by=by, value=value)
+        sleep(self.sleep_debug)
 
-    def jsclick_ele(self, value: str, by: str = By.XPATH) -> None:
+    def jsclick_ele(self, value: str, by: str = By.XPATH, timeout: float = 5) -> None:
         """
         js点击可见元素, 通常用于元素上有其他元素遮挡, 比如有弹窗消息之类的元素
         """
-        ele = self.find_ele_visible(value=value, by=by)
+        ele = self.find_ele_visible(value=value, by=by, timeout=timeout)
         text = ele.text
         self.driver.execute_script("arguments[0].click();", ele)
         self.ele_log(action="js点击了元素", text=text, by=by, value=value)
+        sleep(self.sleep_debug)
 
-    def input_text(self, value: str, text: str, by: str = By.XPATH) -> None:
+    def input_text(self, value: str, text: str, by: str = By.XPATH, timeout: float = 5) -> None:
         """
         先清空输入框, 再输入数据
         """
-        ele = self.find_ele_visible(value=value, by=by)
+        ele = self.find_ele_visible(value=value, by=by, timeout=timeout)
         ele.clear()
         ele.send_keys(text)
         self.ele_log(action="输入了文本", text=text, by=by, value=value)

@@ -22,5 +22,4 @@ ROOT_DIR = os.path.dirname(__file__)
 if __name__ == '__main__':
     pytest.main()
     # 生成 allure 测试报告, allure 测试报告需要手工自定义格式
-    # cmd = r"allure generate ./allure_reports/tmp  -o ./allure_reports/html --clean"
-    # os.system(cmd)
+    # cmd = r"allure generate ./allure_reports/tmp  -o ./allure_reports/html --clean"    # os.system(cmd)

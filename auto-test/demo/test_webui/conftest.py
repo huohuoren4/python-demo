@@ -1,11 +1,13 @@
 import pytest
 
-from demo.test_webui.initial import s_driver, webui_log, webui_session, common_data, common_page_data
+from demo.test_webui.initial import s_driver, webui_log, webui_session, sleep_debug
 from demo.test_webui.page.login_page import LoginPage
 from utils.file_util import YamlUtil
 
+common_data = YamlUtil("demo/test_webui/config/common.yaml").read()
+common_page_data = YamlUtil("demo/test_webui/config/page_config/common_page.yaml").read()
 common_testcase_data = YamlUtil("demo/test_webui/config/testcase_config/common_testcase.yaml").read()
-login_obj = LoginPage(driver=s_driver, log=webui_log, common_data=common_data, common_page_data=common_page_data)
+login_obj = LoginPage(driver=s_driver, log=webui_log, sleep_debug=sleep_debug)
 
 
 @pytest.fixture(scope="session", autouse=True)
