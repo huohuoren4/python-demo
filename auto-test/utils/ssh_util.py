@@ -5,7 +5,7 @@ from paramiko.rsakey import RSAKey
 from paramiko.sftp_client import SFTPClient
 
 
-class SshConnection:
+class SshUtil:
     """远程登录服务器"""
 
     def __init__(self) -> None:
@@ -73,12 +73,12 @@ class SshConnection:
     def close(self):
         """
         关闭ssh连接, sftp连接
-        @return: ``None``
+        @return:
         """
         self.ssh_client.close()
         self.sftp.close()
 
 
 if __name__ == '__main__':
-    ssh = SshConnection()
+    ssh = SshUtil()
     ssh.connect_by_password(ip="192.168.56.201", pwd="1234")
