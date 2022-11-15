@@ -1,22 +1,61 @@
-import logging
-from time import sleep
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+# Date: 2018/12/1
 
-from selenium import webdriver
+from abc import abstractmethod, ABC
 
-from core.webui.element import Element
+
+class Player:
+    def __init__(self, face: str, body: str):
+        self.face = face
+        self.body = body
+    def __str__(self):
+        return "%s, %s" % (self.face, self.body)
+
+
+class PlayerBuilder(ABC):
+    @abstractmethod
+    def build_face(self):
+        pass
+
+    @abstractmethod
+    def build_body(self):
+        pass
+
+
+class SexyGirlBuilder(PlayerBuilder):
+    def __init__(self):
+        self.player = Player()
+
+    def build_face(self):
+        self.player.face = "漂亮脸蛋"
+
+    def build_body(self):
+        self.player.body = "苗条"
+
+
+class Monster(PlayerBuilder):
+    def __init__(self):
+        self.player = Player()
+
+    def build_face(self):
+        self.player.face = "怪兽脸"
+
+    def build_body(self):
+        self.player.body = "怪兽身材"
+
+class PlayerDirector:
+    """
+    指挥者: 控制组装顺序
+    """
+
+    def build_player(self, builder_obj):
+        builder.build_body()
+        builder.build_face()
+        return builder.player
+
 
 if __name__ == '__main__':
-    driver = webdriver.Chrome()
-    driver.maximize_window()
-    driver.get("https://v3.bootcss.com/")
-    driver.implicitly_wait(1)
-    ele = Element(driver= driver, log=logging.getLogger(), sleep_debug=0)
-    driver.find_element("xpath", '//*[@id="content"]/div/p[2]/a').click()
-    ele.slide_scrollbar(0, 500)
-    driver.find_element("xpath", '/html/body/div[2]/div/div[1]/div[1]/div[3]/button').click()
-
-    print(ele.get_paste())
-
-    sleep(300)
-    driver.quit()
-
+    builder = Monster()
+    director = PlayerDirector()
+    p = director.build_player(builder)
