@@ -11,11 +11,6 @@ class LogUtil:
 
     .. 警告::
         不可以重新设置日志的等级和日志的保存目录
-
-    .. 示例::
-        self.logger: logging.Logger | None = None
-        self.file_handler: logging.StreamHandler | None = None
-        self.stream_handler: logging.FileHandler | None = None
     """
 
     def __init__(self) -> None:
