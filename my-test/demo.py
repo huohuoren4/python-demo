@@ -9,7 +9,4 @@ if __name__ == '__main__':
     print(stdout.read())
     ftp = paramiko.Transport(("192.168.56.201", 22))
     ftp.connect()
-    #
-    # ftp.put(r"D:\My_Resp\Github\python\python-demo\auto-test\report.html", r"/roo/report002.html")
-
     ssh.close()
