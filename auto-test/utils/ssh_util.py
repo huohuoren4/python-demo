@@ -6,7 +6,9 @@ from paramiko.sftp_client import SFTPClient
 
 
 class SshUtil:
-    """使用 ssh 远程登录服务器"""
+    """
+    使用`ssh`远程登录服务器, 使用`sftp`实现文件的上传与下载
+    """
 
     def __init__(self) -> None:
         self.ssh_client = SSHClient()
@@ -16,7 +18,18 @@ class SshUtil:
 
     def connect_by_password(self, ip: str, pwd: str, port: int = 22, username: str = "root", timeout: float = 10,
                             interval: int = 60):
-        """ssh连接服务器, 通过用户名密码登录"""
+        """
+        `ssh`连接服务器, 通过用户名密码登录, 同时建立`sftp`连接
+
+        :param ip: 主机`ip`地址
+        :param pwd: 密码
+        :param port: 端口, 默认 22
+        :param username: 用户名, 默认`root`用户
+        :param timeout: 连接超时时间(s), 默认 10s
+        :param interval: 发送数据包的间隔时间(s), 默认 60s. 每过 'interval' 时间向服务器发一个数据包,
+            与服务器建立长连接. `interval=0`为关闭长连接
+        :return:
+        """
         self.ssh_client.connect(hostname=ip, port=port, username=username, password=pwd, timeout=timeout)
         # 初始化 sftp 连接
         self.set_sftp(interval=interval)
@@ -25,17 +38,21 @@ class SshUtil:
                         pkey_pwd: Optional[str] = None, port: int = 22, username: str = "root", timeout: float = 10,
                         interval: int = 60):
         """
-        ssh连接服务器, 通过密钥连接登录. ``id_rsa`` 是私钥(客户端使用)，``id_rsa.pub`` 这个是公钥(服务器使用).
-        只需要把私钥复制到本地主机路径: ``C:\\Users\\Administrator\\.ssh\\id_rsa``
+        ssh连接服务器, 通过密钥连接登录, 同时建立`sftp`连接
 
-        @param ip: 主机``ip``地址
-        @param pkey_filename: 密钥的文件路径, 本地主机默认路径:``C:\\Users\\Administrator\\.ssh\\id_rsa``
-        @param pkey_pwd: 如果密钥中输入了密码, ``pkey_pwd``需要填写密码, 否则为 None
-        @param port: ``ssh``端口
-        @param username: 用户名, 默认为``root``用户
-        @param timeout: 连接超时时间(s), 默认 10s
-        @param interval: 发送数据包的间隔时间(s), 默认 60s. 每过 'interval' 时间向服务器发一个数据包, 与服务器建立长连接
-        @return:
+        `id_rsa` 是私钥(客户端使用)，`id_rsa.pub` 这个是公钥(服务器使用).
+        只需要把私钥复制到本地主机路径: `C:\Users\\Administrator\\.ssh\\id_rsa`
+
+        :param ip: 主机`ip`地址
+        :param pkey_filename: 密钥的文件路径, 本地主机默认路径: `C:\\Users\\Administrator\\.ssh\\id_rsa`
+        :param pkey_pwd: 如果密钥中输入了密码, `pkey_pwd`需要填写密码, 否则为 None
+        :param port: `ssh`端口
+        :param username: 用户名, 默认为`root`用户
+        :param timeout: 连接超时时间(s), 默认 10s
+        :param interval: 发送数据包的间隔时间(s), 默认 60s. 每过 'interval' 时间向服务器发一个数据包,
+            与服务器建立长连接. `interval=0`为关闭长连接
+
+        :return:
         """
         pkey = RSAKey.from_private_key_file(filename=pkey_filename, password=pkey_pwd)
         self.ssh_client.connect(hostname=ip, port=port, username=username, pkey=pkey, timeout=timeout)
@@ -46,8 +63,9 @@ class SshUtil:
         """
         建立 sftp 连接
 
-        @param interval: 发送数据包的间隔时间(s), 默认 60s. 每过 'interval' 时间向服务器发一个数据包, 与服务器建立长连接
-        @return:
+        :param interval: 发送数据包的间隔时间(s), 默认 60s. 每过 'interval' 时间向服务器发一个数据包,
+            与服务器建立长连接. `interval=0`为关闭长连接
+        :return:
         """
         transport = self.ssh_client.get_transport()
         # 设置与服务器进行长连接
@@ -58,9 +76,9 @@ class SshUtil:
         """
         sfpt上传文件
 
-        @param local_file: 本地文件路径
-        @param remote_file: 服务器文件路径. 文件存在就覆盖, 不存在就创建. 文件目录不存在就报错
-        @return:
+        :param local_file: 本地文件路径
+        :param remote_file: 服务器文件路径. 文件存在就覆盖, 不存在就创建. 文件目录不存在就报错
+        :return:
         """
         self.sftp.put(local_file, remote_file)
 
@@ -68,14 +86,20 @@ class SshUtil:
         """
         sftp下载文件
 
-        @param remote_file: 服务器文件路径.
-        @param local_file: 本地文件路径. 文件存在就覆盖, 不存在就创建. 文件目录不存在就报错
-        @return:
+        :param remote_file: 服务器文件路径.
+        :param local_file: 本地文件路径. 文件存在就覆盖, 不存在就创建. 文件目录不存在就报错
+        :return:
         """
         self.sftp.get(remote_file, local_file)
 
     def exec_cmd(self, cmd: str, timeout=10) -> str:
-        """执行shell指令, 执行指令出错返回错误信息, 执行指令正确返回正确信息"""
+        """
+        执行shell指令
+
+        :param cmd: shell指令
+        :param timeout: 执行指令超时时间, 默认 10s
+        :return: 执行指令出错返回错误信息, 执行指令正确返回正确信息
+        """
         _, stdout, stderr = self.ssh_client.exec_command(cmd, timeout=timeout)
         usual_msg = stdout.read().decode('utf-8').strip()
         err_msg = stderr.read().decode('utf-8').strip()
@@ -87,7 +111,7 @@ class SshUtil:
         """
         关闭ssh连接, sftp连接
 
-        @return:
+        :return:
         """
         self.ssh_client.close()
 

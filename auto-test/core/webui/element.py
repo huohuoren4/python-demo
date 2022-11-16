@@ -13,13 +13,31 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 
 class Element(object):
+    """
+    页面元素类
+
+    元素定位默认使用`xpath`, 显示等待超时时间默认 5s
+    """
 
     def __init__(self, driver: WebDriver, log: Logger, sleep_debug: float) -> None:
+        """
+        初始化方法
+
+        :param driver: 浏览器驱动对象
+        :param log: 日志对象
+        :param sleep_debug: 全局的调试时间
+        """
         self.driver = driver
         self.log = log
         self.sleep_debug = sleep_debug
 
     def get_url(self, url: str) -> None:
+        """
+        跳转到指定的`url`
+
+        :param url: url路径
+        :return:
+        """
         try:
             self.driver.get(url)
         except TimeoutException:
@@ -29,9 +47,14 @@ class Element(object):
 
     def find_ele_visible(self, value: str, by: str = By.XPATH, timeout: float = 5) -> WebElement:
         """
-        定位可见元素, 增加显示等待定位元素, 也可以理解为: 等待元素可见
-        状态变化: 元素从不可见到可见
-        return: 在指定的时间内, 找到可见元素返回元素对象, 否者报超时错误
+        定位可见元素
+
+        增加显示等待定位元素, 也可以理解为: 等待元素可见. 状态变化: 元素从不可见到可见
+
+        :param value: 定位字符串
+        :param by: 定位方式, 默认使用`xpath`
+        :param timeout: 显示等待的超时时间, 默认 5s
+        :return: 在指定的时间内, 找到可见元素返回元素对象, 否者报超时错误
         """
         try:
             ele: WebElement = WebDriverWait(self.driver, timeout=timeout).until(
@@ -45,8 +68,13 @@ class Element(object):
     def wait_ele_invisible(self, value: str, by: str = By.XPATH, timeout: float = 5) -> bool:
         """
         等待元素不可见
+
         状态变化: 元素从可见到不可见
-        return: 在指定的时间内, 元素从可见变成不可见返回 True, 否者报超时错误
+
+        :param value: 定位字符串
+        :param by: 定位方式, 默认使用`xpath`
+        :param timeout: 显示等待的超时时间, 默认 5s
+        :return: 在指定的时间内, 元素从可见变成不可见返回 True, 否者报超时错误
         """
         try:
             WebDriverWait(self.driver, timeout=timeout).until_not(
@@ -60,6 +88,11 @@ class Element(object):
     def click_ele(self, value: str, by: str = By.XPATH, timeout: float = 5) -> None:
         """
         点击可见元素
+
+        :param value: 定位字符串
+        :param by: 定位方式, 默认使用`xpath`
+        :param timeout: 显示等待的超时时间, 默认 5s
+        :return:
         """
         ele = self.find_ele_visible(value=value, by=by, timeout=timeout)
         text = ele.text
