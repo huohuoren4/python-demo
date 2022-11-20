@@ -3,7 +3,7 @@ from __future__ import annotations
 from logging import Logger
 from time import sleep
 
-import win32clipboard
+import pyperclip
 from selenium.common import TimeoutException
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
@@ -19,13 +19,13 @@ class Element(object):
     元素定位默认使用`xpath`, 显示等待超时时间默认 5s
     """
 
-    def __init__(self, driver: WebDriver, log: Logger, sleep_debug: float) -> None:
+    def __init__(self, driver: WebDriver, log: Logger, sleep_debug: float = 0) -> None:
         """
         初始化方法
 
         :param driver: 浏览器驱动对象
         :param log: 日志对象
-        :param sleep_debug: 全局的调试时间
+        :param sleep_debug: 全局的调试时间, 默认0s
         """
         self.driver = driver
         self.log = log
@@ -121,10 +121,7 @@ class Element(object):
 
     def get_paste(self) -> str:
         """获取复制的内容"""
-        win32clipboard.OpenClipboard()
-        data = win32clipboard.GetClipboardData()
-        win32clipboard.CloseClipboard()
-        return data
+        return pyperclip.paste()
 
     def slide_scrollbar(self, x: int, y: int) -> None:
         """

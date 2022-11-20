@@ -37,6 +37,7 @@ pycparser==2.21
 PyMySQL==1.0.2
 PyNaCl==1.5.0
 pyparsing==3.0.9
+pyperclip==1.8.2
 PySocks==1.7.1
 pytest==7.1.2
 pytest-assume==2.4.3
@@ -47,7 +48,6 @@ pytest-metadata==2.0.2
 pytest-repeat==0.9.1
 pytest-xdist==2.5.0
 pytz==2022.2.1
-pywin32==305
 PyYAML==6.0
 requests==2.28.1
 ruamel.yaml==0.17.21

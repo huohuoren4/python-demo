@@ -1,61 +1,27 @@
-#! /usr/bin/env python
-# -*- coding: utf-8 -*-
-# Date: 2018/12/1
+import logging
+import time
+from selenium import webdriver
 
-from abc import abstractmethod, ABC
-
-
-class Player:
-    def __init__(self, face: str, body: str):
-        self.face = face
-        self.body = body
-    def __str__(self):
-        return "%s, %s" % (self.face, self.body)
-
-
-class PlayerBuilder(ABC):
-    @abstractmethod
-    def build_face(self):
-        pass
-
-    @abstractmethod
-    def build_body(self):
-        pass
-
-
-class SexyGirlBuilder(PlayerBuilder):
-    def __init__(self):
-        self.player = Player()
-
-    def build_face(self):
-        self.player.face = "漂亮脸蛋"
-
-    def build_body(self):
-        self.player.body = "苗条"
-
-
-class Monster(PlayerBuilder):
-    def __init__(self):
-        self.player = Player()
-
-    def build_face(self):
-        self.player.face = "怪兽脸"
-
-    def build_body(self):
-        self.player.body = "怪兽身材"
-
-class PlayerDirector:
-    """
-    指挥者: 控制组装顺序
-    """
-
-    def build_player(self, builder_obj):
-        builder.build_body()
-        builder.build_face()
-        return builder.player
-
+from core.webui.element import Element
 
 if __name__ == '__main__':
-    builder = Monster()
-    director = PlayerDirector()
-    p = director.build_player(builder)
+    driver = webdriver.Chrome()
+    driver.maximize_window()
+    el = Element(driver=driver, log=logging.getLogger(), sleep_debug=0)
+    el.get_url("https://v3.bootcss.com/getting-started/#download")
+    el.slide_scrollbar(x=0, y=600)
+    el.click_ele(value="/html/body/div[2]/div/div[1]/div[1]/div[3]/button")
+    el.find_ele_visible(value='//*[text()="Copied!"]')
+    print("\033[32mSuccess:字符串 (^_^)\033[0m")
+    paste_content = el.get_paste()
+    print(paste_content)
+    el.click_ele(value="/html/body/div[2]/div/div[1]/div[1]/div[4]/button")
+    print("\033[32mSuccess:字符串 (^_^)\033[0m")
+    paste_content = el.get_paste()
+    print(paste_content)
+    el.click_ele(value="/html/body/div[2]/div/div[1]/div[1]/div[2]/button")
+    print("\033[32mSuccess:字符串 (^_^)\033[0m")
+    paste_content = el.get_paste()
+    print(paste_content)
+    time.sleep(300)
+    driver.quit()
