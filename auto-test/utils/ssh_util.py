@@ -114,6 +114,7 @@ class SshUtil:
         :return:
         """
         self.ssh_client.close()
+        self.sftp.close()
 
 
 if __name__ == '__main__':
