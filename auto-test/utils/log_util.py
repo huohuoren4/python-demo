@@ -1,27 +1,18 @@
 import logging
 import os.path
 import time
-from logging import Logger, StreamHandler, FileHandler
-from typing import Optional
+from logging import Logger
 
 
 class LogUtil:
     """
-    日志类
-
-    .. 警告::
-        不可以重新设置日志的等级和日志的保存目录
+    日志配置类
     """
 
-    def __init__(self) -> None:
-        self.logger: Optional[Logger] = None
-        self.file_handler: Optional[StreamHandler] = None
-        self.stream_handler: Optional[FileHandler] = None
-
-    def get_logger(self, name: str, log_dir: str, fmt: str, prefix: str = "",
-                   log_level: int = logging.INFO) -> Logger:
+    def __init__(self, name: str, log_dir: str, fmt: str, prefix: str = "",
+                 log_level: int = logging.INFO) -> None:
         """
-        获取`Logger`对象
+        获取`Logger`对象初始化
 
         :param log_dir: 日志目录, 不存在会自动创建
         :param name: 日志对象名字
@@ -31,17 +22,24 @@ class LogUtil:
         :param prefix: 日志文件前缀, 比如: webui_202209.log
         :return: 返回一个`Logger`对象
         """
-        self.logger = logging.getLogger(name=name)
-        self.stream_handler = logging.StreamHandler()
+        self._logger = logging.getLogger(name=name)
+        self._stream_handler = logging.StreamHandler()
         if not os.path.exists(log_dir):
             os.makedirs(log_dir)
-        log_file01 = os.path.join(log_dir, prefix + self.get_log_filename())
-        self.file_handler = logging.FileHandler(log_file01, 'a', encoding='utf-8')
+        log_file01 = os.path.join(log_dir, prefix + self._get_log_filename())
+        self._file_handler = logging.FileHandler(log_file01, 'a', encoding='utf-8')
         self.set_level(log_level)
         self.set_fmt(fmt)
-        self.logger.addHandler(self.file_handler)
-        self.logger.addHandler(self.stream_handler)
-        return self.logger
+        self._logger.addHandler(self._file_handler)
+        self._logger.addHandler(self._stream_handler)
+
+    def get_logger(self) -> Logger:
+        """
+        获取`Logger`对象
+
+        :return: 返回一个`Logger`对象
+        """
+        return self._logger
 
     def set_level(self, log_level: int = logging.INFO) -> None:
         """
@@ -52,9 +50,22 @@ class LogUtil:
         :param log_level: 日志等级, 默认为`INFO`
         :return:
         """
-        self.logger.setLevel(log_level)
-        self.file_handler.setLevel(log_level)
-        self.stream_handler.setLevel(log_level)
+        self._logger.setLevel(log_level)
+        self._file_handler.setLevel(log_level)
+        self._stream_handler.setLevel(log_level)
+
+    def set_filestream(self, log_dir: str, prefix: str = "") -> None:
+        """
+        修改日志文件的目录
+
+        :param log_dir: 
+        :param prefix:
+        :return:
+        """
+        if not os.path.exists(log_dir):
+            os.makedirs(log_dir)
+        log_file01 = os.path.join(log_dir, prefix + self._get_log_filename())
+        self._file_handler.setStream(open(log_file01, "a", encoding='utf-8'))
 
     def set_fmt(self, fmt: str) -> None:
         """
@@ -65,10 +76,10 @@ class LogUtil:
         :return:
         """
         log_fmt = logging.Formatter(fmt)
-        self.file_handler.setFormatter(log_fmt)
-        self.stream_handler.setFormatter(log_fmt)
+        self._file_handler.setFormatter(log_fmt)
+        self._stream_handler.setFormatter(log_fmt)
 
-    def get_log_filename(self) -> str:
+    def _get_log_filename(self) -> str:
         """
         按年月生成日志文件名
 
@@ -76,3 +87,4 @@ class LogUtil:
         """
         local_time = time.time()
         return time.strftime("%Y%m", time.localtime(local_time)) + ".log"
+
